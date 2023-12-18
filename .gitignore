@@ -3,7 +3,6 @@
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
 media
 
 # Backup files #
@@ -152,3 +151,5 @@ venv_l/
 venv_p
 /venv_l/
 /templates/registration/test.html
+my_data.txt
+hillel_api/test.py
