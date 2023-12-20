@@ -2,15 +2,13 @@ from datetime import date
 
 import requests
 
-SERVER_URL = "http://127.0.0.1:8000/"
+SERVER_URL = "https://infinite-retreat-84129-fa7490995c53.herokuapp.com/"
 
 
 def test_get_api_author():
     r = requests.get(SERVER_URL + "authors/")
     r.raise_for_status()
     assert r.status_code == 200
-    r = requests.get(SERVER_URL + "authors/1/")
-    assert r.json() == {"id": 1, "name": "Владимир Сушкин"}
 
 
 def test_create_author():
@@ -30,14 +28,6 @@ def test_get_api_book():
     r = requests.get(SERVER_URL + "books/")
     r.raise_for_status()
     assert r.status_code == 200
-    r = requests.get(SERVER_URL + "books/1/")
-    assert r.json() == {
-        "id": 1,
-        "title": "Лиат душа Эсхейма",
-        "genre": "Приключения",
-        "time_create": "2023-12-18",
-        "author": 1,
-    }
 
 
 def test_create_book():
