@@ -35,7 +35,7 @@ def test_book_list_view(client):
             "title": "Test book",
             "genre": "Test genre",
             "time_create": str(date.today()),
-            "author": 1,
+            "author": author.id,
         },
     ]
     print(response.data)
