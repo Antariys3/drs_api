@@ -1,13 +1,21 @@
 name: pytest
 
-on: [ push, pull_request ]
+on: [ pull_request ]
 
 jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Install dependencies and run tests
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pytest
+      - name: Set up environment variables
+        run: |
+          echo "DATABASE_URL=postgres://user:password@localhost:5432/testdb" >> $GITHUB_ENV
+      - name: Run tests
+        run: pytest
