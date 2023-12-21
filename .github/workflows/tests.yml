@@ -24,4 +24,6 @@ jobs:
         run: |
           echo "DATABASE_URL=postgres://user:password@localhost:5432/testdb" >> $GITHUB_ENV
       - name: Run tests
-        run: pytest
+        run: |
+          sleep 20
+          pytest
