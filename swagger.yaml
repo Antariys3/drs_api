@@ -1,0 +1,379 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: bookstore_api_page
+  description: API for describing a bookstore.
+  contact:
+    name: Andrii Tarasenko
+    email: 333antar333@gmail.com
+servers:
+  - url: https://infinite-retreat-84129-fa7490995c53.herokuapp.com/
+
+paths:
+  /authors/:
+    get:
+      summary: method for getting list of authors
+      tags:
+        - Authors
+      operationId: getAllAuthors
+      responses:
+        '200':
+          description: successful response with list of authors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Authors"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    post:
+      summary: author creation method
+      tags:
+        - Authors
+      operationId: createAuthor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+      responses:
+        '201':
+          description: author created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+  /authors/{author_id}:
+    get:
+      summary: method for getting author by ID
+      tags:
+        - Authors
+      operationId: getAuthorById
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: id author
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful answer with one author
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Update a author by ID
+      tags:
+        - Authors
+      operationId: updateAuthorById
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ID of the author to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+      responses:
+        '200':
+          description: Book updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        'default':
+          description: All other errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: removing author by ID
+      tags:
+        - Authors
+      operationId: deleteAuthorById
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: id author
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully deleted
+          content:
+            application/json: { }
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+
+
+  /books/:
+    get:
+      summary: Get a list of books
+      tags:
+        - Books
+      operationId: getAllBooks
+      responses:
+        '200':
+          description: successful response with list of authors books
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Books"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+    post:
+      summary: book creation method
+      tags:
+        - Books
+      operationId: createBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        '201':
+          description: book created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        'default':
+          description: all other errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  /books/{book_id}:
+    get:
+      summary: method for getting book by ID
+      tags:
+        - Books
+      operationId: getBookById
+      parameters:
+        - name: book_id
+          in: path
+          required: true
+          description: id book
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful response with list of books
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Update a book by ID
+      tags:
+        - Books
+      operationId: updateBookById
+      parameters:
+        - name: book_id
+          in: path
+          required: true
+          description: ID of the book to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        '200':
+          description: Book updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        'default':
+          description: All other errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: removing book by ID
+      tags:
+        - Books
+      operationId: deleteBookById
+      parameters:
+        - name: book_id
+          in: path
+          required: true
+          description: id book
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully deleted
+          content:
+            application/json: { }
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+    Author:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Стефені Маєр"
+    Authors:
+      type: array
+      items:
+        $ref: "#/components/schemas/Author"
+    Book:
+      type: object
+      required:
+        - title
+        - author
+        - genre
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Затемнення"
+        author:
+          type: integer
+          example: 1
+        genre:
+          type: string
+          example: "Роман"
+        time_create:
+          type: string
+          example: "2023-12-20"
+    Books:
+      type: array
+      items:
+        $ref: "#/components/schemas/Book"
+    Error:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
