@@ -8,12 +8,17 @@ pip install -r requirements.txt
 docker run -p 5432:5432 -e POSTGRES_PASSWORD=password postgres
 ```
 
-3. Make migrations.
+3. Run broker:
+```
+docker run -p 6379:6379 redis
+```
+
+4. Make migrations.
 ```
 python manage.py migrate
 ```
 
-4. Run Django web server.
+5. Run Django web server.
 ```
 python manage.py runserver
 ```
