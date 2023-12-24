@@ -113,18 +113,28 @@ if IS_HEROKU_APP:
         ),
     }
 else:
-    # When running locally in development or in CI, a sqlite database file will be used instead
-    # to simplify initial setup. Longer term it's recommended to use Postgres locally too.
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "postgres",
-            "USER": "postgres",
-            "PASSWORD": "password",
-            "HOST": "127.0.0.1",
-            "PORT": "5432",
+    try:
+        POSTGRES_PASSWORD = open(os.getenv("POSTGRES_PASSWORD_FILE", "")).read().strip()
+    except FileNotFoundError:
+        POSTGRES_PASSWORD = "for_tests"
+    if os.getenv("DOCKERIZED", False):
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("POSTGRES_DB", "mock-db"),
+                "USER": "postgres",
+                "PASSWORD": POSTGRES_PASSWORD,
+                "HOST": "db",
+                "PORT": "5432",
+            }
         }
-    }
+    else:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": BASE_DIR / "db.sqlite3",
+            }
+        }
 
 
 # Password validation
@@ -181,3 +191,20 @@ WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+REST_FRAMEWORK_EXTENSIONS = {
+    "DEFAULTS": {
+        "DEFAULT_CACHE_KEY_FUNC": "rest_framework_extensions.utils.default_cache_key_func",
+        "DEFAULT_CACHE_RESPONSE_TIMEOUT": 60 * 5,
+    },
+}

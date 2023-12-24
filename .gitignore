@@ -153,3 +153,4 @@ venv_p
 /templates/registration/test.html
 my_data.txt
 hillel_api/test.py
+/password.txt
