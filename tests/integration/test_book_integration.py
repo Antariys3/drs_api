@@ -33,11 +33,21 @@ def test_get_api_book():
 def test_create_book():
     r = requests.post(
         SERVER_URL + "books/",
-        json={"title": "Затемнення", "genre": "Роман", "time_create": str(date.today()), "author": 1},
+        json={
+            "title": "Затемнення",
+            "genre": "Роман",
+            "time_create": str(date.today()),
+            "author": 1,
+        },
     )
     r.raise_for_status()
     assert r.status_code == 201
-    assert (r.json()["title"], r.json()["genre"], r.json()["time_create"], r.json()["author"]) == (
+    assert (
+        r.json()["title"],
+        r.json()["genre"],
+        r.json()["time_create"],
+        r.json()["author"],
+    ) == (
         "Затемнення",
         "Роман",
         str(date.today()),

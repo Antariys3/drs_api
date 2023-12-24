@@ -12,7 +12,6 @@ services:
     secrets:
       - db-password
     environment:
-#      - CELERY_BROKER_URL=amqp://guest:guest@broker:5672/
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
       - POSTGRES_DB=example
     depends_on:
@@ -22,6 +21,7 @@ services:
       context: .
     ports:
       - 8000:8000
+    command: gunicorn 'hillel_api.wsgi' --bind=0.0.0.0:8000
 
   run_db_migrations:
     secrets:
@@ -69,4 +69,4 @@ volumes:
   db-data:
 secrets:
   db-password:
-    file: db/password.txt
+    file: password.txt
