@@ -14,7 +14,6 @@ def client():
 
 
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Skipping this test for now.")
 def test_author_list_view(client):
     Author.objects.create(name="Test Author")
     response = client.get("/authors/")
@@ -25,7 +24,6 @@ def test_author_list_view(client):
 
 
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Skipping this test for now.")
 def test_book_list_view(client):
     author = Author.objects.create(name="Test Author")
     Book.objects.create(title="Test book", author=author, genre="Test genre")

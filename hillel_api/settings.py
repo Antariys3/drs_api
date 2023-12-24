@@ -113,19 +113,28 @@ if IS_HEROKU_APP:
         ),
     }
 else:
-    # When running locally in development or in CI, a sqlite database file will be used instead
-    # to simplify initial setup. Longer term it's recommended to use Postgres locally too.
-    POSTGRES_PASSWORD = open(os.getenv("POSTGRES_PASSWORD_FILE")).read().strip()
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("POSTGRES_DB"),
-            "USER": "postgres",
-            "PASSWORD": POSTGRES_PASSWORD,
-            "HOST": "db",
-            "PORT": "5432",
+    try:
+        POSTGRES_PASSWORD = open(os.getenv("POSTGRES_PASSWORD_FILE", "")).read().strip()
+    except FileNotFoundError:
+        POSTGRES_PASSWORD = "for_tests"
+    if os.getenv("DOCKERIZED", False):
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("POSTGRES_DB", "mock-db"),
+                "USER": "postgres",
+                "PASSWORD": POSTGRES_PASSWORD,
+                "HOST": "db",
+                "PORT": "5432",
+            }
         }
-    }
+    else:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": BASE_DIR / "db.sqlite3",
+            }
+        }
 
 
 # Password validation
